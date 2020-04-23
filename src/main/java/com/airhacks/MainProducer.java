@@ -6,7 +6,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Properties;
 
-public class Main {
+public class MainProducer {
     public static void main(String[] args) throws NamingException, JMSException {
 
 
@@ -30,10 +30,10 @@ public class Main {
         System.out.println("Context Created");
 
         // JNDI Lookup for QueueConnectionFactory in remote JMS Provider
-        ConnectionFactory qFactory = (ConnectionFactory)cntxt.lookup("jms/__defaultConnectionFactory");
+        ConnectionFactory connectionFactory = (ConnectionFactory)cntxt.lookup("jms/__defaultConnectionFactory");
 
         // Create a Connection from QueueConnectionFactory
-        Connection connection = qFactory.createConnection();
+        Connection connection = connectionFactory.createConnection();
 
 
         System.out.println("Connection established with JMS Provide ");
@@ -43,15 +43,18 @@ public class Main {
 
         String msg = "Hello from remote JMS Client";
 
-
-        // Create the message
-        TextMessage message = session.createTextMessage();
-        message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
-        message.setText(msg);
-        message.setStringProperty("NewsType" , "'Sports'");
+        final JMSContext jmsContext= connectionFactory.createContext();
 
         // JNDI Lookup for the Queue in remote JMS Provider
         Topic topic = (Topic)cntxt.lookup("jms/newsTopic");
+
+        // Create the message
+//        jmsContext.createConsumer(topic)
+        TextMessage message = session.createTextMessage();
+        message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
+        message.setText(msg);
+        message.setStringProperty("NewsType" , "Sports");
+
 
         // Create the MessageProducer for this communication
         // Session on the Queue we have
