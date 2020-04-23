@@ -53,7 +53,7 @@ public class MainProducer {
         TextMessage message = session.createTextMessage();
         message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
         message.setText(msg);
-        message.setStringProperty("NewsType" , "Sports");
+        message.setStringProperty("NewsType" , "Opinion");
 
 
         // Create the MessageProducer for this communication
