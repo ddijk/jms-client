@@ -9,18 +9,6 @@ import java.util.Properties;
 public class MainProducer {
     public static void main(String[] args) throws NamingException, JMSException {
 
-
-
-//        final JMSConsumer consumer = jmsContext.createConsumer(topic, "messageSelector=(NewsType = 'Sports') OR  (NewsType = 'Opinion')");
-
-//        consumer.setMessageListener(msg-> {
-//            try {
-//                logger.info("*** "+msg.getBody(String.class));
-//            } catch (JMSException e) {
-//                e.printStackTrace();
-//            }
-//        });
-
         // Provide the details of remote JMS Client
         Properties props = new Properties();
         props.put(Context.PROVIDER_URL, "mq://localhost:7676");
